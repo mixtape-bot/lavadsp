@@ -1,9 +1,7 @@
 plugins {
-    id 'java-library'
-    id 'maven'
-    id 'maven-publish'
-    id 'com.github.johnrengelman.shadow' version '6.1.0'
-    id 'com.jfrog.bintray' version '1.8.5'
+  id 'java-library'
+  id 'maven-publish'
+  id 'com.github.johnrengelman.shadow' version '7.0.0'
 }
 
 def versionObj = new Version(major: 0, minor: 7, revision: 7)
@@ -15,126 +13,122 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
-    jcenter()
+  maven { url "https://m2.dv8tion.net/releases" }
+  maven { url "https://jitpack.io" }
+  mavenCentral()
 }
 
 dependencies {
-    implementation 'org.slf4j:slf4j-api:1.7.30'
-    implementation 'com.github.natanbc:native-loader:0.7.0'
-    compileOnly 'com.sedmelluq:lavaplayer:1.3.66'
-    testCompile 'com.sedmelluq:lavaplayer:1.3.66'
-    testCompile 'ch.qos.logback:logback-classic:1.2.3'
+  implementation 'org.slf4j:slf4j-api:1.7.30'
+  implementation 'com.github.natanbc:native-loader:0.7.0'
+  compileOnly 'com.sedmelluq:lavaplayer:1.3.77'
+  testImplementation 'com.sedmelluq:lavaplayer:1.3.77'
+  testImplementation 'ch.qos.logback:logback-classic:1.2.3'
 }
 
 import org.apache.tools.ant.filters.ReplaceTokens
 
 task sourcesForRelease(type: Copy) {
-    from 'src/main/java'
-    into 'build/filteredSrc'
-    filter(ReplaceTokens, tokens: [
-            VERSION_MAJOR: versionObj.getMajor(),
-            VERSION_MINOR: versionObj.getMinor(),
-            VERSION_REVISION: versionObj.getRevision(),
-            COMMIT_HASH: getCommitHash()
-    ])
+  from 'src/main/java'
+  into 'build/filteredSrc'
+  filter(ReplaceTokens, tokens: [
+    VERSION_MAJOR   : versionObj.getMajor(),
+    VERSION_MINOR   : versionObj.getMinor(),
+    VERSION_REVISION: versionObj.getRevision(),
+    COMMIT_HASH     : getCommitHash()
+  ])
 }
 
 compileJava {
-    source = sourcesForRelease.destinationDir
-    classpath = sourceSets.main.compileClasspath
+  source = sourcesForRelease.destinationDir
+  classpath = sourceSets.main.compileClasspath
 
-    options.encoding = 'UTF-8'
+  options.encoding = 'UTF-8'
 
-    dependsOn sourcesForRelease
+  dependsOn sourcesForRelease
 }
 
 jar {
-    baseName = project.name
-    manifest {
-        attributes 'Implementation-Version': version
-    }
+  baseName = project.name
+  manifest {
+    attributes 'Implementation-Version': version
+  }
 }
 
 shadowJar {
-    classifier = "withDependencies"
+  classifier = "withDependencies"
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from "${buildDir}/filteredSrc"
+  classifier = 'sources'
+  from "${buildDir}/filteredSrc"
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
+  classifier = 'javadoc'
+  from javadoc.destinationDir
 }
 
 
 publishing {
-    publications {
-        BintrayRelease(MavenPublication) {
-            from components.java
-            groupId group
-            artifactId archivesBaseName
-
-            artifact sourcesJar {
-                classifier 'sources'
-            }
-
-            artifact javadocJar {
-                classifier 'javadoc'
-            }
-        }
+  repositories {
+    maven {
+      name = "jfrog"
+      url = "https://dimensional.jfrog.io/artifactory/maven"
+      credentials {
+        username = System.getenv("JFROG_USERNAME")
+        password = System.getenv("JFROG_PASSWORD")
+      }
     }
-}
+  }
 
-bintray {
-    version = "${versionObj}"
-    user = getProjectProperty("BINTRAY_USERNAME")
-    key = getProjectProperty("BINTRAY_API_KEY")
-    publications = ["BintrayRelease"]
-    pkg {
-        repo = 'maven'
-        name = project.name
-        licenses = ['Apache-2.0']
-        vcsUrl = 'https://github.com/natanbc/lavadsp.git'
-        publish = true
-        version {
-            name = project.version.toString()
-            released = new Date()
-        }
+  publications {
+    maven(MavenPublication) {
+      from components.java
+
+      groupId group
+      artifactId archivesBaseName
+
+      artifact sourcesJar {
+        classifier 'sources'
+      }
+
+      artifact javadocJar {
+        classifier 'javadoc'
+      }
     }
+  }
 }
 
 String getProjectProperty(String propertyName) {
-    String property
-    if(hasProperty(propertyName)) {
-        property = project.properties[propertyName]
-    } else {
-        property = System.getenv(propertyName) ?: ""
-    }
-    return property
+  String property
+  if (hasProperty(propertyName)) {
+    property = project.properties[propertyName]
+  } else {
+    property = System.getenv(propertyName) ?: ""
+  }
+  return property
 }
 
-bintrayUpload {
-    dependsOn shadowJar
-
-    onlyIf { !getProjectProperty("BINTRAY_USERNAME").empty }
-    onlyIf { !getProjectProperty("BINTRAY_API_KEY").empty }
+publish {
+  dependsOn shadowJar
+  onlyIf {
+    System.getenv("BINTRAY_USERNAME") != null && System.getenv("BINTRAY_API_KEY") != null
+  }
 }
 
 static def getCommitHash() {
-    def p = Runtime.getRuntime().exec("git rev-parse HEAD")
-    p.waitFor()
-    p.getIn().text.trim()
+  def p = Runtime.getRuntime().exec("git rev-parse HEAD")
+  p.waitFor()
+  p.getIn().text.trim()
 }
 
 class Version {
-    String major, minor, revision
+  String major, minor, revision
 
 
-    String toString() {
-        "${major}.${minor}" + (revision == "0" ? "" : ".${revision}")
-    }
+  String toString() {
+    "${major}.${minor}" + (revision == "0" ? "" : ".${revision}")
+  }
 }
 

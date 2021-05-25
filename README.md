@@ -10,31 +10,11 @@ A bunch of lavaplayer audio filters implemented with native code
 
 Replace `VERSION` with the version you want to use. The latest version can be found in the badge above.
 
-#### Maven
-
-```xml
-<repositories>
-    <repository>
-        <id>jcenter</id>
-        <name>jcenter</name>
-        <url>http://jcenter.bintray.com/</url>
-    </repository>
-</repositories>
-
-<dependencies>
-    <dependency>
-        <groupId>com.github.natanbc</groupId>
-        <artifactId>lavadsp</artifactId>
-        <version>VERSION</version>
-    </dependency>
-</dependencies>
-```
-
 #### Gradle
 
 ```gradle
 repositories {
-    jcenter()
+  maven { url "https://dimensional.jfrog.io/artifactory/maven" }
 }
 
 dependencies {

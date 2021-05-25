@@ -212,13 +212,13 @@ jobs:
         with:
           name: jar
           path: build/libs/*.jar
-      - name: Bintray upload
+      - name: Jfrog upload
         if: startsWith(github.ref, 'refs/tags/')
         run: |
           export TAG="$(echo $GITHUB_REF | grep -q refs/tags && echo ${GITHUB_REF/refs\/tags\/} || echo '')"
           if [ "$TAG" != "" ]; then
-            ./gradlew bintrayUpload
+            ./gradlew publish
           fi
         env:
-          BINTRAY_USERNAME: ${{ secrets.BINTRAY_USERNAME }}
-          BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
+          JFROG_USERNAME: ${{ secrets.JFROG_USERNAME }}
+          JFROG_PASSWORD: ${{ secrets.JFROG_PASSWORD }}
