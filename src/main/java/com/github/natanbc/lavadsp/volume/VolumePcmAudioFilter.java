@@ -2,7 +2,7 @@ package com.github.natanbc.lavadsp.volume;
 
 import com.github.natanbc.lavadsp.util.FloatToFloatFunction;
 import com.github.natanbc.lavadsp.util.VectorSupport;
-import com.sedmelluq.discord.lavaplayer.filter.FloatPcmAudioFilter;
+import lavaplayer.filter.FloatPcmAudioFilter;
 
 /**
  * Updates the effect volume, with a multiplier ranging from 0 to 5.

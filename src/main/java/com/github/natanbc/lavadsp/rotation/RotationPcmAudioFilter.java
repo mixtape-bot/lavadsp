@@ -2,7 +2,7 @@ package com.github.natanbc.lavadsp.rotation;
 
 import com.github.natanbc.lavadsp.util.DoubleToDoubleFunction;
 import com.github.natanbc.lavadsp.util.VectorSupport;
-import com.sedmelluq.discord.lavaplayer.filter.FloatPcmAudioFilter;
+import lavaplayer.filter.FloatPcmAudioFilter;
 
 /**
  * This filter simulates an audio source rotating around the listener.

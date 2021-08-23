@@ -17,7 +17,7 @@
 package com.github.natanbc.lavadsp.distortion;
 
 import com.github.natanbc.lavadsp.ConverterPcmAudioFilter;
-import com.sedmelluq.discord.lavaplayer.filter.FloatPcmAudioFilter;
+import lavaplayer.filter.FloatPcmAudioFilter;
 
 import java.util.concurrent.atomic.AtomicInteger;
 

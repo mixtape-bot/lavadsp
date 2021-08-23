@@ -2,7 +2,7 @@ package com.github.natanbc.lavadsp.channelmix;
 
 import com.github.natanbc.lavadsp.util.FloatToFloatFunction;
 import com.github.natanbc.lavadsp.util.VectorSupport;
-import com.sedmelluq.discord.lavaplayer.filter.FloatPcmAudioFilter;
+import lavaplayer.filter.FloatPcmAudioFilter;
 
 /**
  * This filter mixes both channels (left and right), with a configurable factor on how much

@@ -18,7 +18,7 @@ package com.github.natanbc.lavadsp.tremolo;
 
 import com.github.natanbc.lavadsp.util.FloatToFloatFunction;
 import com.github.natanbc.lavadsp.util.VectorSupport;
-import com.sedmelluq.discord.lavaplayer.filter.FloatPcmAudioFilter;
+import lavaplayer.filter.FloatPcmAudioFilter;
 
 /**
  * <a href="https://en.wikipedia.org/wiki/Tremolo">Tremolo</a> filter implementation.

@@ -1,12 +1,12 @@
 package com.github.natanbc.lavadsp.util;
 
-import com.sedmelluq.discord.lavaplayer.filter.FloatPcmAudioFilter;
-import com.sedmelluq.discord.lavaplayer.filter.ShortPcmAudioFilter;
-import com.sedmelluq.discord.lavaplayer.filter.SplitShortPcmAudioFilter;
-import com.sedmelluq.discord.lavaplayer.filter.UniversalPcmAudioFilter;
-import com.sedmelluq.discord.lavaplayer.filter.converter.ToFloatAudioFilter;
-import com.sedmelluq.discord.lavaplayer.filter.converter.ToShortAudioFilter;
-import com.sedmelluq.discord.lavaplayer.filter.converter.ToSplitShortAudioFilter;
+import lavaplayer.filter.FloatPcmAudioFilter;
+import lavaplayer.filter.ShortPcmAudioFilter;
+import lavaplayer.filter.SplitShortPcmAudioFilter;
+import lavaplayer.filter.UniversalPcmAudioFilter;
+import lavaplayer.filter.converter.ToFloatAudioFilter;
+import lavaplayer.filter.converter.ToShortAudioFilter;
+import lavaplayer.filter.converter.ToSplitShortAudioFilter;
 
 import java.util.ArrayList;
 import java.util.List;
