@@ -40,13 +40,14 @@ tasks.jar {
     }
 }
 
-tasks.create<Jar>("sourcesJar") {
+val sourcesJar = task<Jar>("sourcesJar") {
     archiveClassifier.set("sources")
+    from(sourceSets["main"].allJava)
 }
 
 tasks.shadowJar {
     archiveClassifier.set("withDependencies")
-    dependsOn("sourcesJar")
+    dependsOn(sourcesJar)
 }
 
 tasks.publish {
@@ -103,9 +104,7 @@ publishing {
             version = project.version.toString()
             artifactId = "lavadsp"
 
-            artifact("sourcesJar") {
-                classifier = "sources"
-            }
+            artifact(sourcesJar)
         }
     }
 }
