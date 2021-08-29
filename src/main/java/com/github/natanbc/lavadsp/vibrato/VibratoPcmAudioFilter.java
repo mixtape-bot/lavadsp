@@ -51,7 +51,7 @@ public class VibratoPcmAudioFilter extends ConverterPcmAudioFilter<VibratoConver
      * @return {@code this}, for chaining calls.
      */
     public VibratoPcmAudioFilter setFrequency(float frequency) {
-        for(VibratoConverter converter : converters()) {
+        for(VibratoConverter converter : getConverters()) {
             converter.setFrequency(frequency);
         }
         this.frequency = frequency;
@@ -87,7 +87,7 @@ public class VibratoPcmAudioFilter extends ConverterPcmAudioFilter<VibratoConver
      * @return {@code this}, for chaining calls.
      */
     public VibratoPcmAudioFilter setDepth(float depth) {
-        for(VibratoConverter converter : converters()) {
+        for(VibratoConverter converter : getConverters()) {
             converter.setDepth(depth);
         }
         this.depth = depth;

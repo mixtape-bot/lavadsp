@@ -13,20 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.github.natanbc.lavadsp.util;
+package com.github.natanbc.lavadsp.util
 
 /**
  * Represents a function that accepts a double-valued argument and produces a
  * double-valued result
  */
-@FunctionalInterface
-public interface DoubleToDoubleFunction {
+fun interface DoubleToDoubleFunction {
     /**
      * Applies this function to the given argument.
      *
      * @param value the function argument
      * @return the function result
      */
-    double apply(double value);
+    fun apply(value: Double): Double
 }

@@ -72,4 +72,8 @@ public class DistortionConverter implements Converter {
             output[outputOffset + i] = Math.max(-1f, Math.min(1f, result));
         }
     }
+
+    @Override
+    public void close() throws Exception {
+    }
 }

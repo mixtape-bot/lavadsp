@@ -1,5 +1,5 @@
-package com.github.natanbc.lavadsp.util;
+package com.github.natanbc.lavadsp.util
 
-class ScalarFunctions implements VectorSupport.FilterFunctions {
-    //nothing
-}
+import com.github.natanbc.lavadsp.util.VectorSupport.FilterFunctions
+
+internal class ScalarFunctions : FilterFunctions

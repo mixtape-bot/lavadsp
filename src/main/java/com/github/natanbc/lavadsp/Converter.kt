@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package com.github.natanbc.lavadsp;
+package com.github.natanbc.lavadsp
 
-public interface Converter extends AutoCloseable {
-    @Override
-    default void close() {}
+import java.lang.AutoCloseable
 
-    void process(float[] input, int inputOffset, float[] output, int outputOffset, int samples);
+interface Converter : AutoCloseable {
+    fun process(input: FloatArray, inputOffset: Int, output: FloatArray, outputOffset: Int, samples: Int)
 }

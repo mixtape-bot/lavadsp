@@ -135,4 +135,9 @@ public class VibratoConverter implements Converter {
             return ((c3 * x + c2) * x + c1) * x + y1;
         }
     }
+
+    @Override
+    public void close() throws Exception {
+
+    }
 }

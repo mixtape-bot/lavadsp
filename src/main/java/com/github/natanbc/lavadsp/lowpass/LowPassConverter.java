@@ -43,4 +43,9 @@ public class LowPassConverter implements Converter {
             output[i + outputOffset] = value;
         }
     }
+
+    @Override
+    public void close() throws Exception {
+
+    }
 }

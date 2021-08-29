@@ -13,47 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.github.natanbc.lavadsp;
+package com.github.natanbc.lavadsp
 
 /**
  * Contains information about the library version.
  */
-@SuppressWarnings("WeakerAccess")
-public final class DspInfo {
-    /**
-     * Library major version.
-     */
-    public static final String VERSION_MAJOR;
-
-    /**
-     * Library minor version.
-     */
-    public static final String VERSION_MINOR;
-
-    /**
-     * Library revision.
-     */
-    public static final String VERSION_REVISION;
+object DspInfo {
+    private val stream = DspInfo::class.java.classLoader.getResourceAsStream("version.txt")
+    private val versionTxt = (stream?.reader()?.readText() ?: "0.0.0\nunknown").lines()
 
     /**
      * Latest commit hash as of build time.
      */
-    public static final String COMMIT_HASH;
+    var COMMIT_HASH: String = versionTxt.last()
 
     /**
-     * Library version, in the format {@code MAJOR.MINOR.REVISION}.
+     * Library version, in the format `MAJOR.MINOR.REVISION`.
      */
-    public static final String VERSION;
+    var VERSION: String = versionTxt.first()
 
-    static {
-        VERSION_MAJOR = "@VERSION_MAJOR@";
-        VERSION_MINOR = "@VERSION_MINOR@";
-        VERSION_REVISION = "@VERSION_REVISION@";
-        COMMIT_HASH = "@COMMIT_HASH@";
-        //noinspection ConstantConditions
-        VERSION = VERSION_MAJOR.startsWith("@") ? "Dev" : String.format("%s.%s.%s", VERSION_MAJOR, VERSION_MINOR, VERSION_REVISION);
-    }
+    /**
+     * Library major version.
+     */
+    var VERSION_MAJOR: String = VERSION.split('.').first()
 
-    private DspInfo() {}
+    /**
+     * Library minor version.
+     */
+    var VERSION_MINOR: String = VERSION.split('.')[1]
+
+    /**
+     * Library revision.
+     */
+    var VERSION_REVISION: String = VERSION.split('.').last()
+
 }

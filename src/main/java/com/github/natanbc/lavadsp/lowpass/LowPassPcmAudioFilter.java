@@ -49,7 +49,7 @@ public class LowPassPcmAudioFilter extends ConverterPcmAudioFilter<LowPassConver
      * @return {@code this}, for chaining calls.
      */
     public LowPassPcmAudioFilter setSmoothing(float smoothing) {
-        for(LowPassConverter converter : converters()) {
+        for(LowPassConverter converter : getConverters()) {
             converter.setSmoothing(smoothing);
         }
         this.smoothing = smoothing;
@@ -70,7 +70,7 @@ public class LowPassPcmAudioFilter extends ConverterPcmAudioFilter<LowPassConver
     
     @Override
     public void seekPerformed(long requestedTime, long providedTime) {
-        for(LowPassConverter converter : converters()) {
+        for(LowPassConverter converter : getConverters()) {
             converter.onSeek();
         }
         super.seekPerformed(requestedTime, providedTime);

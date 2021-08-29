@@ -14,91 +14,66 @@
  * limitations under the License.
  */
 
-package com.github.natanbc.lavadsp;
+package com.github.natanbc.lavadsp
 
-import lavaplayer.filter.FloatPcmAudioFilter;
+import kotlin.jvm.JvmOverloads
+import java.util.function.Supplier
+import lavaplayer.filter.FloatPcmAudioFilter
+import java.lang.Exception
+import kotlin.Throws
+import java.lang.InterruptedException
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.function.Supplier;
+open class ConverterPcmAudioFilter<T : Converter?> @JvmOverloads constructor(
+    converterFactory: Supplier<T>,
+    protected val downstream: FloatPcmAudioFilter,
+    channelCount: Int,
+    private val bufferSize: Int = DEFAULT_BUFFER_SIZE
+) : FloatPcmAudioFilter {
+    companion object {
+        private const val DEFAULT_BUFFER_SIZE = 4096
+    }
 
-@SuppressWarnings("WeakerAccess")
-public class ConverterPcmAudioFilter<T extends Converter> implements FloatPcmAudioFilter {
-    private static final int DEFAULT_BUFFER_SIZE = 4096;
+    protected val converters: List<T> = MutableList(channelCount) { converterFactory.get() }
+    private val outputSegments: List<FloatArray>? =
+        if (channelCount < 1) null else List(channelCount) { FloatArray(bufferSize) }
 
-    protected final List<T> converters;
-    protected final FloatPcmAudioFilter downstream;
-    protected final float[][] outputSegments;
-    protected final int bufferSize;
-
-    public ConverterPcmAudioFilter(Supplier<T> converterFactory, FloatPcmAudioFilter downstream, int channelCount, int bufferSize) {
-        List<T> converters = new ArrayList<>(channelCount);
-        for(int i = 0; i < channelCount; i++) {
-            converters.add(converterFactory.get());
-        }
-        this.converters = Collections.unmodifiableList(converters);
-        this.downstream = downstream;
-        this.bufferSize = bufferSize;
-        if(bufferSize < 1) {
-            this.outputSegments = null;
-        } else {
-            this.outputSegments = new float[channelCount][];
-            for(int i = 0; i < channelCount; i++) {
-                outputSegments[i] = new float[bufferSize];
+    @Throws(InterruptedException::class)
+    override fun process(input: Array<FloatArray>, offset: Int, length: Int) {
+        if (outputSegments == null) {
+            for (i in input.indices) {
+                converters[i]?.process(input[i], offset, input[i], 0, length)
             }
-        }
-    }
 
-    public ConverterPcmAudioFilter(Supplier<T> converterFactory, FloatPcmAudioFilter downstream, int channelCount) {
-        this(converterFactory, downstream, channelCount, DEFAULT_BUFFER_SIZE);
-    }
-
-    public List<T> converters() {
-        return converters;
-    }
-
-    @Override
-    public void process(float[][] input, int offset, int length) throws InterruptedException {
-        if(outputSegments == null) {
-            for(int i = 0; i < input.length; i++) {
-                converters.get(i).process(input[i], offset, input[i], 0, length);
-            }
-            downstream.process(input, 0, length);
+            downstream.process(input, 0, length)
         } else {
-            int l = length;
-            while(l > 0) {
-                int size = Math.min(l, bufferSize);
-                for(int i = 0; i < input.length; i++) {
-                    converters.get(i).process(input[i], offset, outputSegments[i], 0, size);
+            var l = length
+            while (l > 0) {
+                val size = l.coerceAtMost(bufferSize)
+                for (i in input.indices) {
+                    converters[i]?.process(input[i], offset, outputSegments[i], 0, size)
                 }
-                downstream.process(outputSegments, 0, size);
-                l -= bufferSize;
+
+                downstream.process(outputSegments.toTypedArray(), 0, size)
+                l -= bufferSize
             }
         }
     }
 
-    @Override
-    public void seekPerformed(long requestedTime, long providedTime) {
+    override fun seekPerformed(requestedTime: Long, providedTime: Long) {
         //nothing to do here
     }
 
-    @Override
-    public void flush() {
+    override fun flush() {
         //nothing to do here
     }
-    
-    @Override
-    public void close() {
-        for(T converter : converters) {
-            converter.close();
-        }
+
+    override fun close() {
+        converters.forEach { it?.close() }
     }
-    
-    @Deprecated
-    @Override
-    protected final void finalize() throws Throwable {
-        close();
-        super.finalize();
+
+    @Deprecated("", ReplaceWith("close()"))
+    @Throws(Throwable::class)
+    protected open fun finalize() {
+        close()
     }
 }

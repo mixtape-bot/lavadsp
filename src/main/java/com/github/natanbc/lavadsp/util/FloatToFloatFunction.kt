@@ -13,20 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.github.natanbc.lavadsp.util;
+package com.github.natanbc.lavadsp.util
 
 /**
  * Represents a function that accepts a float-valued argument and produces a
  * float-valued result
  */
-@FunctionalInterface
-public interface FloatToFloatFunction {
+fun interface FloatToFloatFunction {
     /**
      * Applies this function to the given argument.
      *
      * @param value the function argument
      * @return the function result
      */
-    float apply(float value);
+    fun apply(value: Float): Float
 }
