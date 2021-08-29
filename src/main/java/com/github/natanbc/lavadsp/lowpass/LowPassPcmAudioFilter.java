@@ -18,7 +18,7 @@ package com.github.natanbc.lavadsp.lowpass;
 
 import com.github.natanbc.lavadsp.ConverterPcmAudioFilter;
 import com.github.natanbc.lavadsp.util.FloatToFloatFunction;
-import com.sedmelluq.discord.lavaplayer.filter.FloatPcmAudioFilter;
+import lavaplayer.filter.FloatPcmAudioFilter;
 
 /**
  * Implements the algorithm described <a href="http://phrogz.net/js/framerate-independent-low-pass-filter.html">here</a>.

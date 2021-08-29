@@ -1,11 +1,11 @@
 package com.github.natanbc.lavadsp.util;
 
-import com.sedmelluq.discord.lavaplayer.filter.AudioFilter;
-import com.sedmelluq.discord.lavaplayer.filter.AudioFilterChain;
-import com.sedmelluq.discord.lavaplayer.filter.FloatPcmAudioFilter;
-import com.sedmelluq.discord.lavaplayer.filter.ShortPcmAudioFilter;
-import com.sedmelluq.discord.lavaplayer.filter.SplitShortPcmAudioFilter;
-import com.sedmelluq.discord.lavaplayer.filter.UniversalPcmAudioFilter;
+import lavaplayer.filter.AudioFilter;
+import lavaplayer.filter.AudioFilterChain;
+import lavaplayer.filter.FloatPcmAudioFilter;
+import lavaplayer.filter.ShortPcmAudioFilter;
+import lavaplayer.filter.SplitShortPcmAudioFilter;
+import lavaplayer.filter.UniversalPcmAudioFilter;
 
 import java.util.*;
 
@@ -16,7 +16,7 @@ import java.util.*;
  * with the exception that, when possible, this class uses vector instructions
  * for needed conversions.
  *
- * @see com.sedmelluq.discord.lavaplayer.filter.FilterChainBuilder
+ * @see lavaplayer.filter.FilterChainBuilder
  */
 public class FilterChainBuilder {
     private final List<AudioFilter> filters = new ArrayList<>();
@@ -66,7 +66,7 @@ public class FilterChainBuilder {
     }
     
     /**
-     * @param context See {@link com.sedmelluq.discord.lavaplayer.filter.AudioFilterChain#context}.
+     * @param context See {@link lavaplayer.filter.AudioFilterChain#context}.
      * @param channelCount Number of input channels expected by the current head of the chain.
      * @return The built filter chain. Adds an adapter to the beginning of the chain if the first filter is not universal.
      */

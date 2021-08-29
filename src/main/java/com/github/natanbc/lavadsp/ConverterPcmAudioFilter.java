@@ -16,7 +16,7 @@
 
 package com.github.natanbc.lavadsp;
 
-import com.sedmelluq.discord.lavaplayer.filter.FloatPcmAudioFilter;
+import lavaplayer.filter.FloatPcmAudioFilter;
 
 import java.util.ArrayList;
 import java.util.Collections;

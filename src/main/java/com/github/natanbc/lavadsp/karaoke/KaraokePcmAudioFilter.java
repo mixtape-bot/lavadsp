@@ -17,7 +17,7 @@
 package com.github.natanbc.lavadsp.karaoke;
 
 import com.github.natanbc.lavadsp.util.FloatToFloatFunction;
-import com.sedmelluq.discord.lavaplayer.filter.FloatPcmAudioFilter;
+import lavaplayer.filter.FloatPcmAudioFilter;
 
 public class KaraokePcmAudioFilter implements FloatPcmAudioFilter {
     private final FloatPcmAudioFilter downstream;

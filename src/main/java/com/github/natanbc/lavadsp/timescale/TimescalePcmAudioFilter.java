@@ -18,7 +18,7 @@ package com.github.natanbc.lavadsp.timescale;
 
 import com.github.natanbc.lavadsp.natives.TimescaleConverter;
 import com.github.natanbc.lavadsp.util.DoubleToDoubleFunction;
-import com.sedmelluq.discord.lavaplayer.filter.FloatPcmAudioFilter;
+import lavaplayer.filter.FloatPcmAudioFilter;
 
 /**
  * <a href="https://en.wikipedia.org/wiki/Audio_time_stretching_and_pitch_scaling">Time stretch and pitch scale</a> filter implementation.
