@@ -4,6 +4,7 @@ on:
   release:
   pull_request:
   workflow_dispatch:
+  create:
 
 jobs:
   linux-x86-natives:
