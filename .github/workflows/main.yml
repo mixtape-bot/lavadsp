@@ -3,6 +3,7 @@ name: CI
 on:
   release:
   pull_request:
+  workflow_dispatch:
 
 jobs:
   linux-x86-natives:
