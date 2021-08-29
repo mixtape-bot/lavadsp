@@ -40,8 +40,13 @@ tasks.jar {
     }
 }
 
+tasks.create<Jar>("sourcesJar") {
+    archiveClassifier.set("sources")
+}
+
 tasks.shadowJar {
     archiveClassifier.set("withDependencies")
+    dependsOn("sourcesJar")
 }
 
 tasks.publish {
@@ -79,11 +84,6 @@ tasks.create("writeVersion") {
     file("$resourcePath/version.txt").writeText(getBuildVersion())
 }
 
-tasks.create<Jar>("sourcesJar") {
-    archiveClassifier.set("sources")
-    from("$buildDir/filteredSrc")
-}
-
 publishing {
     repositories {
         maven("https://dimensional.jfrog.io/artifactory/maven") {
@@ -105,10 +105,6 @@ publishing {
 
             artifact("sourcesJar") {
                 classifier = "sources"
-            }
-
-            artifact("javadocJar") {
-                classifier = "javadoc"
             }
         }
     }
